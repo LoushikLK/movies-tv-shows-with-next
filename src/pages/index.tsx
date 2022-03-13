@@ -2,7 +2,7 @@ import { ContentContainer, Hero } from "components/common";
 import { useApiData } from "hooks";
 import Layouts from "layouts";
 
-export default () => {
+const Home = () => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
   let trendingMovies = `https://api.themoviedb.org/3/trending/all/day?${API_KEY}`;
   let popularMovies = `https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1`;
@@ -33,3 +33,5 @@ export default () => {
     </Layouts>
   );
 };
+
+export default Home;

@@ -2,18 +2,8 @@ import Layouts from "layouts";
 import { ContentContainer, Hero } from "components/common";
 import { useApiData } from "hooks";
 
-export default () => {
+const NewPopular = () => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
-
-  let upcomingmovies = `
-  https://api.themoviedb.org/3/discover/movie?${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_watch_monetization_types=flatrate`;
-  let upcomingmovies2 = `
-  https://api.themoviedb.org/3/discover/movie?${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=2&with_watch_monetization_types=flatrate`;
-
-  let upcomingtv = `https://api.themoviedb.org/3/discover/tv?${API_KEY}&language=en-US&sort_by=popularity.desc&page=1&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate`;
-  let upcomingtv2 = `https://api.themoviedb.org/3/discover/tv?${API_KEY}&language=en-US&sort_by=popularity.desc&page=2&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate`;
-
-  let populartrend = `https://api.themoviedb.org/3/trending/all/day?${API_KEY}`;
 
   const seriesPage = [
     {
@@ -57,3 +47,5 @@ export default () => {
     </Layouts>
   );
 };
+
+export default NewPopular;

@@ -2,7 +2,7 @@ import Layouts from "layouts";
 import { ContentContainer, Hero } from "components/common";
 import { useApiData } from "hooks";
 
-export default () => {
+const TvShows = () => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
 
   const seriesPage = [
@@ -42,3 +42,5 @@ export default () => {
     </Layouts>
   );
 };
+
+export default TvShows;
