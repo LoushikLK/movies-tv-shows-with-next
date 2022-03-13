@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.my-container {
+  @apply container mx-auto;
+}
+
+.content-section-scroll {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+  width: 100%;
+  scroll-behavior: smooth;
+  justify-content: flex-start;
+
+  scroll-snap-type: x mandatory;
+  scroll-snap-type: mandatory;
+  scroll-snap-points-x: repeat(100%);
+  scroll-padding: 0px;
+}
+
+.content-section-scroll::-webkit-scrollbar {
+  display: none;
+}
