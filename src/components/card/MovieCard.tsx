@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 
 const MovieCard = ({ moviesDetails }: any) => {
-  console.log(moviesDetails);
+  // console.log(moviesDetails);
 
   return (
     <>

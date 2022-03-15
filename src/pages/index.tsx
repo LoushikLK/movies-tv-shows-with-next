@@ -12,7 +12,7 @@ const Home = () => {
 
   const heroPage = useApiData(hero);
 
-  console.log(heroPage);
+  // console.log(heroPage);
 
   return (
     <Layouts title="Home MV">

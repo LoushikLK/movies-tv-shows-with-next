@@ -1,3 +1,4 @@
+import { ItemDetails } from "components/common";
 import { useApiData } from "hooks";
 import Layouts from "layouts";
 import { useRouter } from "next/router";
@@ -17,7 +18,7 @@ const Details = () => {
 
   return (
     <Layouts title={"Movie Details"}>
-      <h1>Movie Details</h1>
+      <ItemDetails />
     </Layouts>
   );
 };
