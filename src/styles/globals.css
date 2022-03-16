@@ -26,3 +26,10 @@
 .content-section-scroll::-webkit-scrollbar {
   display: none;
 }
+
+.card-genre:nth-child(even) {
+  @apply text-white bg-pink-600 shadow-md shadow-pink-500;
+}
+.card-genre:nth-child(odd) {
+  @apply text-white bg-purple-700 shadow-md shadow-purple-500;
+}

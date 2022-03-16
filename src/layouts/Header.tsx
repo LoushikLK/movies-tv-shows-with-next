@@ -34,8 +34,8 @@ const Header = () => {
         <div className="flex flex-row items-center">
           <div className="text-teal-500 ">
             <Link href={"/"}>
-              <a className="text-teal-500 text-[2.5rem] font-semibold  pr-6 tracking-wide ">
-                MV{" "}
+              <a className="text-teal-500 text-[2.5rem] uppercase font-semibold  pr-6 tracking-wide ">
+                Movie Hub{" "}
               </a>
             </Link>
           </div>
