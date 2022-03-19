@@ -1,9 +1,7 @@
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Skeleton } from "@mui/material";
 import { MovieCard } from "components/card";
-import { useApiData } from "hooks";
+import { useApiData, useDetails } from "hooks";
 
-import React, { useRef } from "react";
+import React from "react";
 
 type Props = {
   path: any;
@@ -15,9 +13,9 @@ const ContentContainer = ({ path, title }: Props) => {
 
   const apiData: any = useApiData(path);
 
-  // console.log(apiData?.data?.results[0]?.id);
+  const tvGenre = useDetails.getGenres("tv");
 
-  const cardContainerRef = useRef<any>(null);
+  const movieGenre = useDetails.getGenres("movie");
 
   return (
     <section className="bg-white dark:bg-gray-900">
@@ -26,44 +24,22 @@ const ContentContainer = ({ path, title }: Props) => {
           <h1 className="text-teal-500 font-medium text-[1.5rem] lg:text-[2rem] tracking-wide ">
             {title}
           </h1>
-          <span className="w-[2rem] h-1 bg-teal-500 "></span>
         </div>
 
-        <div className=" relative p-4   ">
-          <div className="absolute left-0 top-1/2 h-full items-center -translate-y-1/2 flex w-full justify-between ">
-            <span
-              className=" text-teal-500 dark:text-white "
-              onClick={() => {
-                cardContainerRef?.current?.scrollBy(-300, 0);
-              }}
-            >
-              <ChevronLeft className="cursor-pointer   " />
-            </span>
-            <span
-              className="text-teal-500 dark:text-white"
-              onClick={() => {
-                cardContainerRef?.current?.scrollBy(300, 0);
-              }}
-            >
-              <ChevronRight className="cursor-pointer   " />
-            </span>
-          </div>
-
-          <div
-            className="content-section-scroll relative z-10 py-4"
-            ref={cardContainerRef}
-          >
-            {apiData?.data?.results?.map((movie: any, index: number) => {
-              return (
-                <div
-                  className="min-w-[21rem] flex items-center justify-center "
-                  key={index}
-                >
-                  <MovieCard moviesDetails={movie} />
-                </div>
-              );
-            })}
-          </div>
+        <div className=" relative gap-4 grid grid-cols-12 py-4">
+          {apiData?.data?.results?.map((movie: any, index: number) => {
+            return (
+              <div
+                className=" xs:col-span-12  col-span-6 md:col-span-4 lg:col-span-3 xl:col-span-2 flex items-center justify-center "
+                key={index}
+              >
+                <MovieCard
+                  moviesDetails={movie}
+                  genres={movie?.original_name ? tvGenre : movieGenre}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

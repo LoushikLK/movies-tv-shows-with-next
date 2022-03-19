@@ -20,15 +20,15 @@ const Home = () => {
 
       <ContentContainer
         path={`https://api.themoviedb.org/3/trending/all/day?${API_KEY}`}
-        title={"Trending Movies On MV"}
+        title={"Popular on MovieHub"}
       />
       <ContentContainer
         path={`https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1`}
-        title={"Popular Tv Shows On MV"}
+        title={"Popular Movies On MovieHub"}
       />
       <ContentContainer
         path={`https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1`}
-        title={"Popular Movies On MV"}
+        title={"Popular TV Shows On MovieHub"}
       />
     </Layouts>
   );

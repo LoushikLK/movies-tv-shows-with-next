@@ -28,7 +28,7 @@ const Movies = () => {
     `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1`
   );
 
-  console.log(heroPage);
+  // console.log(heroPage);
 
   return (
     <Layouts title="Movies | MV">
