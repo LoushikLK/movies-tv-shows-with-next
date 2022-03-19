@@ -27,6 +27,7 @@ const MovieDetails = ({ data }: any) => {
               src={"https://image.tmdb.org/t/p/original" + data?.backdrop_path}
               layout="fill"
               objectFit="cover"
+              alt="banner"
             />
           </div>
         </div>
@@ -68,7 +69,10 @@ const MovieDetails = ({ data }: any) => {
             <div className="flex flex-row items-center  flex-wrap gap-4">
               {data?.genres?.map((item: any) => {
                 return (
-                  <span className="px-3 py-1 rounded text-sm  font-normal card-genre  ">
+                  <span
+                    className="px-3 py-1 rounded text-sm  font-normal card-genre  "
+                    key={item.id}
+                  >
                     {item.name}
                   </span>
                 );
@@ -91,7 +95,12 @@ const MovieDetails = ({ data }: any) => {
         <div className=" flex flex-row py-8 gap-8 ">
           <div className="flex   ">
             <div className="relative h-[20rem] w-[15rem] ">
-              <Image src={Poster} layout="fill" objectFit="cover" />
+              <Image
+                src={"https://image.tmdb.org/t/p/w500" + data?.poster_path}
+                layout="fill"
+                objectFit="cover"
+                alt="poster"
+              />
             </div>
           </div>
 
@@ -113,10 +122,18 @@ const MovieDetails = ({ data }: any) => {
 
               <span className="flex flex-row items-center gap-4 ">
                 {cast?.data?.success === true &&
-                  cast?.data?.map((item: any) => {
+                  cast?.data?.map((item: any, index: number) => {
                     return (
-                      <span className=" h-[3rem] overflow-hidden w-[3rem] cursor-pointer  relative rounded-full border border-teal-500/50 bg-teal-200/20  ">
-                        <Image src={Poster} layout="fill" objectFit="cover" />
+                      <span
+                        className=" h-[3rem] overflow-hidden w-[3rem] cursor-pointer  relative rounded-full border border-teal-500/50 bg-teal-200/20  "
+                        key={index}
+                      >
+                        <Image
+                          src={Poster}
+                          layout="fill"
+                          objectFit="cover"
+                          alt="cast"
+                        />
                       </span>
                     );
                   })}
