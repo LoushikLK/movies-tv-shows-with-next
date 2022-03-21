@@ -1,11 +1,9 @@
-import { useApiData } from "hooks";
 import Image from "next/image";
 import React from "react";
-import Banner from "assets/hobbit_bg.jpg";
-import Poster from "assets/profile.jpg";
+
 import { PlayArrow } from "@mui/icons-material";
 
-import { useDetails } from "hooks";
+import { useApiData, useDetails } from "hooks";
 
 const MovieDetails = ({ data }: any) => {
   console.log(data);
@@ -14,15 +12,25 @@ const MovieDetails = ({ data }: any) => {
 
   console.log(cast);
 
+  const images = useDetails.getImages("movie", data?.id);
+
+  // console.log(images);
+
   // const genre = useDetails.getGenres("movie");
 
   // console.log(genre);
+
+  const youtubeData = useDetails.getYoutubeData(
+    data?.title || data?.original_title
+  );
+
+  // console.log(youtubeData);
 
   return (
     <section className="bg-white dark:bg-gray-900 ">
       <div className="w-full relative ">
         <div className="w-full">
-          <div className="relative w-full h-[25rem] ">
+          <div className="relative w-full h-[70vh] ">
             <Image
               src={"https://image.tmdb.org/t/p/original" + data?.backdrop_path}
               layout="fill"
@@ -34,9 +42,17 @@ const MovieDetails = ({ data }: any) => {
 
         <div className="w-full absolute left-0 bottom-12 ">
           <div className="  my-container   ">
-            <button className="bg-gray-100/20 gap-2 border border-gray-300/20 hover:bg-gray-200 transition-all ease-in-out duration-300 text-teal-500 relative flex items-center  text-[1.3rem] tracking-wide font-bold py-3 px-6 rounded-md">
+            <a
+              href={`https://www.youtube.com/watch?v=${
+                youtubeData?.data?.items &&
+                youtubeData?.data?.items[0]?.id?.videoId
+              }`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-gray-100/20  w-fit gap-2 border border-gray-300/20 hover:bg-gray-200 transition-all ease-in-out duration-300 text-teal-500 relative flex items-center  text-[1.3rem] tracking-wide font-bold py-3 px-6 rounded-md"
+            >
               <PlayArrow className="text-[2rem]" /> Watch Trailer
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -82,10 +98,12 @@ const MovieDetails = ({ data }: any) => {
 
           <div className="flex">
             <div className=" flex flex-col justify-center items-center h-[7rem] w-[7rem] rounded-full border-4 border-teal-500/50 bg-teal-200/20  ">
-              <span className="text-gray-900 dark:text-gray-300 text-2xl ">
-                55%
+              <span className="text-gray-900 dark:text-gray-300 text-base ">
+                {data?.vote_average}/10 ⭐
               </span>
-              <span className="text-gray-900 dark:text-gray-300 ">Ratings</span>
+              <span className="text-gray-900 dark:text-gray-300 text-base  ">
+                {data?.vote_count} Rating{" "}
+              </span>
             </div>
           </div>
         </div>
@@ -96,7 +114,7 @@ const MovieDetails = ({ data }: any) => {
           <div className="flex   ">
             <div className="relative h-[20rem] w-[15rem] ">
               <Image
-                src={"https://image.tmdb.org/t/p/w500" + data?.poster_path}
+                src={"https://image.tmdb.org/t/p/w500/" + data?.poster_path}
                 layout="fill"
                 objectFit="cover"
                 alt="poster"
@@ -120,23 +138,35 @@ const MovieDetails = ({ data }: any) => {
                 Cast & Crew
               </h3>
 
-              <span className="flex flex-row items-center gap-4 ">
-                {cast?.data?.success === true &&
-                  cast?.data?.map((item: any, index: number) => {
-                    return (
-                      <span
-                        className=" h-[3rem] overflow-hidden w-[3rem] cursor-pointer  relative rounded-full border border-teal-500/50 bg-teal-200/20  "
-                        key={index}
-                      >
+              <span className="flex flex-row items-baseline flex-wrap gap-4 ">
+                {cast?.data?.cast?.map((item: any) => {
+                  return (
+                    <div
+                      className="flex flex-col max-w-[7rem]  gap-2"
+                      key={item.cast_id}
+                    >
+                      <span className=" h-[9rem] overflow-hidden w-[7rem] cursor-pointer  relative  border border-teal-500/50 bg-teal-200/20  ">
                         <Image
-                          src={Poster}
+                          src={
+                            "https://image.tmdb.org/t/p/w500" +
+                            item.profile_path
+                          }
                           layout="fill"
                           objectFit="cover"
                           alt="cast"
                         />
                       </span>
-                    );
-                  })}
+                      <span className="flex flex-col gap-1">
+                        <span className="text-teal-400 text-xs tracking-wide ">
+                          {item.name}
+                        </span>
+                        <span className="text-gray-300 text-[11px] tracking-wide ">
+                          As {item.character}
+                        </span>
+                      </span>
+                    </div>
+                  );
+                })}
               </span>
             </span>
           </div>
