@@ -33,3 +33,14 @@
 .card-genre:nth-child(odd) {
   @apply text-white bg-purple-700 shadow-md shadow-purple-500;
 }
+
+.gradient-bg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+}
