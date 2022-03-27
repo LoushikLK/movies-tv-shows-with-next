@@ -12,7 +12,8 @@ const Details = () => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
 
   const apiData = useApiData(
-    `https://api.themoviedb.org/3/tv/${routes?.query?.id}?${API_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/tv/${routes?.query?.id}?${API_KEY}&append_to_response=videos,aggregate_credits,content_ratings,episode_groups,images,recommendations,reviews,similar
+    &language=en-US`
   );
   // console.log(apiData);
 

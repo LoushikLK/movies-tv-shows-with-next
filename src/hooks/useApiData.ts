@@ -20,7 +20,7 @@ const useApiData = (url: any) => {
 
   React.useEffect(() => {
     fetchData(url);
-  }, []);
+  }, [url]);
 
   return { data, loading, error };
 };

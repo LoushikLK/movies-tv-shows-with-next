@@ -10,18 +10,6 @@ type Props = {
 const TvDetails = ({ data }: Props) => {
   console.log(data);
 
-  const cast = useDetails.getCast("tv", data?.id);
-
-  console.log(cast);
-
-  const images = useDetails.getImages("tv", data?.id);
-
-  // console.log(images);
-
-  // const genre = useDetails.getGenres("movie");
-
-  // console.log(genre);
-
   const youtubeData = useDetails.getYoutubeData(
     data?.name || data?.original_name
   );
@@ -140,7 +128,7 @@ const TvDetails = ({ data }: Props) => {
               </h3>
 
               <span className="flex flex-row items-baseline flex-wrap gap-4 ">
-                {cast?.data?.cast?.map((item: any) => {
+                {data?.cast?.map((item: any) => {
                   return (
                     <div
                       className="flex flex-col max-w-[7rem]  gap-2"

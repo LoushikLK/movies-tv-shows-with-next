@@ -1,9 +1,14 @@
 import { Notifications, Search } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
+import { SearchArea } from "components/search";
 import Link from "next/link";
 import React from "react";
 
 const Header = () => {
+  const [showSearch, setShowSearch] = React.useState(false);
+
+  console.log(showSearch);
+
   const navlinks = [
     {
       href: "/",
@@ -29,7 +34,7 @@ const Header = () => {
   ];
 
   return (
-    <nav className="bg-white dark:bg-gray-900 ">
+    <nav className="bg-white dark:bg-gray-900 z-50 sticky top-0 ">
       <div className="my-container flex flex-row justify-between  ">
         <div className="flex flex-row items-center">
           <div className="text-teal-500 ">
@@ -55,18 +60,17 @@ const Header = () => {
           </ul>
         </div>
         <div className="relative flex flex-row items-center gap-4">
-          <div className=" flex items-center flex-row border border-teal-300   overflow-hidden rounded-md ">
+          <div
+            className=" flex items-center flex-row   overflow-hidden  cursor-pointer  "
+            onClick={() => {
+              setShowSearch(!showSearch);
+            }}
+          >
             <span className="relative flex items-center ">
-              <Search className="absolute ml-1" />
-              <input
-                type="text"
-                className=" focus:outline-none pl-8 h-[2rem]  "
-              />
-            </span>
-            <span className="flex px-2 h-[2rem] items-center cursor-pointer bg-teal-500 text-white font-medium tracking-wide ">
-              Search
+              <Search className=" text-teal-500 h-8 w-8 " />
             </span>
           </div>
+
           <div className="flex items-center">
             <span className="flex items-center  cursor-pointer text-teal-500 font-medium tracking-wide ">
               <Notifications className="h-8 w-8" />
@@ -83,6 +87,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      {showSearch && <SearchArea />}
     </nav>
   );
 };

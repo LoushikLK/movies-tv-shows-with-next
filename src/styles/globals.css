@@ -44,3 +44,7 @@
     rgba(0, 0, 0, 0)
   );
 }
+
+.rating-icon .MuiRating-iconEmpty {
+  @apply text-gray-800 dark:text-gray-500;
+}
