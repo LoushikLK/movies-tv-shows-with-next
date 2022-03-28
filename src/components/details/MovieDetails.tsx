@@ -3,7 +3,7 @@ import React from "react";
 
 import { Add, BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
 
-import { useApiData, useDetails } from "hooks";
+import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
 import { RecommendedContent, SimilarContent } from "components/common";
 
