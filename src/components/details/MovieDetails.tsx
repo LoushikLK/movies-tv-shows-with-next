@@ -231,10 +231,13 @@ const MovieDetails = ({ data }: any) => {
             </h3>
             {data?.reviews?.results?.length > 0 ? (
               <div className="w-full flex flex-col gap-4 ">
-                {data?.reviews?.results?.map((item: any) => {
+                {data?.reviews?.results?.map((item: any, index: number) => {
                   // console.log(`${item?.author_details?.avatar_path}`.slice(1));
                   return (
-                    <div className="flex flex-row gap-4 items-start shadow-[0px_0px_5px_0px] shadow-gray-800/40 dark:shadow-white/50 rounded-md p-8  ">
+                    <div
+                      className="flex flex-row gap-4 items-start shadow-[0px_0px_5px_0px] shadow-gray-800/40 dark:shadow-white/50 rounded-md p-8  "
+                      key={index}
+                    >
                       <div className="flex w-1/5 flex-row items-center gap-4 ">
                         <div>
                           <Avatar
@@ -265,7 +268,7 @@ const MovieDetails = ({ data }: any) => {
                         <a
                           href={item?.url}
                           target="_blank"
-                          referrerPolicy="no-referrer"
+                          rel="noopener noreferrer"
                           className="text-black font-normal cursor-pointer dark:text-white text-base tracking-wide "
                         >
                           {item?.content?.slice(0, 300)} ...read more.

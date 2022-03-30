@@ -1,4 +1,3 @@
-
 import Head from "next/head";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -16,9 +15,8 @@ export default ({ children, title = "MV" }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="dark ">{children}</main>
+      <main className="dark">{children}</main>
       <Footer />
     </>
-
   );
 };

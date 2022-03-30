@@ -34,6 +34,7 @@ const RecommendedContent = ({ data }: any) => {
                         src={`https://image.tmdb.org/t/p/w500${item?.backdrop_path}`}
                         layout="fill"
                         objectFit="cover"
+                        alt="poster"
                       />
                     </div>
                   </div>
