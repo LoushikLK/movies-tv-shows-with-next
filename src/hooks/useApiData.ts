@@ -19,7 +19,13 @@ const useApiData = (url: any) => {
   };
 
   React.useEffect(() => {
-    fetchData(url);
+    let mounted = true;
+    if (mounted) {
+      fetchData(url);
+    }
+    return () => {
+      mounted = false;
+    };
   }, [url]);
 
   return { data, loading, error };

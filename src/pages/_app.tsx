@@ -5,13 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import type { AppProps } from "next/app";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    // <AppTheme>
-    <div className={"dark"}>
-      <Component {...pageProps} />
-    </div>
-    // </AppTheme>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default MyApp;

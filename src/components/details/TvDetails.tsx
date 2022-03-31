@@ -5,7 +5,7 @@ import { Add, BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
-import { RecommendedContent, SimilarContent } from "components/common";
+import { RecommendedContent } from "components/common";
 
 type Props = {
   data: any;
@@ -227,7 +227,7 @@ const TvDetails = ({ data }: Props) => {
                 </h3>
 
                 <span className="flex flex-row items-baseline flex-wrap gap-4 ">
-                  {mainCast.map((item: any) => {
+                  {mainCast?.map((item: any) => {
                     if (item.profile_path) {
                       return (
                         <div
@@ -339,16 +339,6 @@ const TvDetails = ({ data }: Props) => {
 
               <div className="w-full">
                 <RecommendedContent data={data?.recommendations?.results} />
-              </div>
-            </div>
-            {/* similar content */}
-            <div className="w-full py-8 ">
-              <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
-                Similar
-              </h3>
-
-              <div className="w-full">
-                <SimilarContent data={data?.similar?.results} />
               </div>
             </div>
           </div>

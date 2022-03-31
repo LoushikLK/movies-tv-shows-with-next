@@ -1,18 +1,16 @@
-import { useTheme } from "@emotion/react";
 import { ModeNight, Notifications, Search, WbSunny } from "@mui/icons-material";
 import { Avatar, Switch } from "@mui/material";
 import { SearchArea } from "components/search";
 import Link from "next/link";
 import React from "react";
 
-const Header = () => {
+const Header = ({ setDarkTheme }: any) => {
   const [showSearch, setShowSearch] = React.useState(false);
   const [checked, setChecked] = React.useState(true);
-  // const { darkMode, setDarkMode } = useTheme();
 
   const handleTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    // setDarkMode(event.target.checked);
+    setDarkTheme(event.target.checked);
   };
 
   console.log(showSearch);

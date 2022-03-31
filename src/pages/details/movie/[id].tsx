@@ -16,7 +16,7 @@ const Details = () => {
 
   return (
     <Layouts title={"Movie Details"}>
-      <MovieDetails data={apiData?.data} />
+      <MovieDetails loading={apiData?.loading} data={apiData?.data} />
     </Layouts>
   );
 };
