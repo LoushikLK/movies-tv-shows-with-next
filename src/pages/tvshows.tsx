@@ -8,25 +8,25 @@ const TvShows = () => {
 
   const seriesPage = [
     {
-      path: `https://api.themoviedb.org/3/tv/on_the_air?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/tv/on_the_air?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Now Playing",
     },
     {
-      path: `https://api.themoviedb.org/3/tv/airing_today?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/tv/airing_today?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "New Arrive TV Shows",
     },
     {
-      path: `https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Popular TV Shows",
     },
     {
-      path: `https://api.themoviedb.org/3/tv/top_rated?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/tv/top_rated?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Top Rated  TV Shows ",
     },
   ];
 
   const heroPage = useApiData(
-    `https://api.themoviedb.org/3/tv/on_the_air?${API_KEY}&language=en-US&page=1`
+    `https://api.themoviedb.org/3/tv/on_the_air?${API_KEY}&language=en-US&page=1&include_adult=true`
   );
 
   // console.log(heroPage);

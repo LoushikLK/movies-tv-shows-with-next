@@ -9,7 +9,7 @@ const Home = () => {
   // let popularMovies = `https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1`;
   // let popularShows = `https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1`;
 
-  let hero = `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1S`;
+  let hero = `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1S&include_adult=true`;
 
   const heroPage = useApiData(hero);
 
@@ -26,15 +26,15 @@ const Home = () => {
           <Hero data={heroPage?.data?.results} />
 
           <ContentContainer
-            path={`https://api.themoviedb.org/3/trending/all/day?${API_KEY}`}
+            path={`https://api.themoviedb.org/3/trending/all/day?${API_KEY}&include_adult=true`}
             title={"Popular on MovieHub"}
           />
           <ContentContainer
-            path={`https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1`}
+            path={`https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1&include_adult=true`}
             title={"Popular Movies On MovieHub"}
           />
           <ContentContainer
-            path={`https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1`}
+            path={`https://api.themoviedb.org/3/tv/popular?${API_KEY}&language=en-US&page=1&include_adult=true`}
             title={"Popular TV Shows On MovieHub"}
           />
         </>

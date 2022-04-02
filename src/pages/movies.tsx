@@ -8,25 +8,25 @@ const Movies = () => {
 
   const moviePage = [
     {
-      path: `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Now Playing",
     },
     {
-      path: `https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/movie/popular?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Popular Movies",
     },
     {
-      path: `https://api.themoviedb.org/3/movie/top_rated?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/movie/top_rated?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Top Rated Movies",
     },
     {
-      path: `https://api.themoviedb.org/3/movie/upcoming?${API_KEY}&language=en-US&page=1`,
+      path: `https://api.themoviedb.org/3/movie/upcoming?${API_KEY}&language=en-US&page=1&include_adult=true`,
       title: "Upcoming Movies",
     },
   ];
 
   const heroPage = useApiData(
-    `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1`
+    `https://api.themoviedb.org/3/movie/now_playing?${API_KEY}&language=en-US&page=1&include_adult=true`
   );
 
   // console.log(heroPage);
