@@ -11,7 +11,11 @@ import {
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
-import { RecommendedContent, SimilarContent } from "components/common";
+import {
+  RecommendedContent,
+  SimilarContent,
+  VideoPlayer,
+} from "components/common";
 import Animation from "assets/animations";
 
 const MovieDetails = ({ data, loading }: any) => {
@@ -51,6 +55,20 @@ const MovieDetails = ({ data, loading }: any) => {
         </div>
       ) : data ? (
         <>
+          {playYoutube && (
+            <VideoPlayer
+              close={() => {
+                setPlayYoutube(false);
+              }}
+              title={data?.title || data?.original_title}
+              url={`https://www.youtube.com/embed/${
+                data?.videos?.results?.pop()?.key ||
+                data?.videos?.results?.pop()?.key ||
+                (youtubeData?.data?.items &&
+                  youtubeData?.data?.items[0]?.id?.videoId)
+              }?autoplay=1&mute=0`}
+            />
+          )}
           <div
             style={{
               backgroundImage: `url(${
@@ -85,31 +103,6 @@ const MovieDetails = ({ data, loading }: any) => {
                         onClick={() => setPlayYoutube(true)}
                       >
                         <PlayArrow className="text-[1.5rem]" /> Watch Trailer
-                      </div>
-                    )}
-                    {playYoutube && (
-                      <div className="absolute top-0 z-50 left-0 h-full w-full ">
-                        <span
-                          className="absolute right-0 top-0  text-white flex gap-2 cursor-pointer "
-                          onClick={() => setPlayYoutube(false)}
-                        >
-                          <Cancel className="h-16 w-16" />
-                        </span>
-
-                        <iframe
-                          className="w-full h-full"
-                          src={
-                            `https://www.youtube.com/embed/${
-                              data?.videos?.results?.pop()?.key
-                            }?autoplay=1&mute=0` ||
-                            `https://www.youtube.com/embed/${
-                              youtubeData?.data?.items &&
-                              youtubeData?.data?.items[0]?.id?.videoId
-                            }?autoplay=1&mute=0`
-                          }
-                          frameBorder="0"
-                          allowFullScreen
-                        ></iframe>
                       </div>
                     )}
 
@@ -345,25 +338,30 @@ const MovieDetails = ({ data, loading }: any) => {
           </div>
           <div className="w-full my-container ">
             {/* recommended content */}
-            <div className="w-full py-8 ">
-              <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
-                Recommended
-              </h3>
+            {data?.recommendations?.results?.length > 0 && (
+              <div className="w-full py-8 ">
+                <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
+                  Recommended
+                </h3>
 
-              <div className="w-full">
-                <RecommendedContent data={data?.recommendations?.results} />
+                <div className="w-full">
+                  <RecommendedContent data={data?.recommendations?.results} />
+                </div>
               </div>
-            </div>
+            )}
+
             {/* similar content */}
-            <div className="w-full py-8 ">
-              <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
-                Similar
-              </h3>
+            {data?.similar?.results.length > 0 && (
+              <div className="w-full py-8 ">
+                <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
+                  Similar
+                </h3>
 
-              <div className="w-full">
-                <SimilarContent data={data?.similar?.results} />
+                <div className="w-full">
+                  <SimilarContent data={data?.similar?.results} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </>
       ) : (

@@ -2,9 +2,10 @@ import { InfoOutlined, PlayArrow } from "@mui/icons-material";
 import { useDetails } from "hooks";
 import Link from "next/link";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import Slider from "react-slick";
+import VideoPlayer from "./VideoPlayer";
 
 const Hero = ({ data }: any) => {
   const movieSliderSettings = {
@@ -18,11 +19,17 @@ const Hero = ({ data }: any) => {
     arrows: false,
   };
 
+  // console.log("hero", data);
+
+  const [youtubeVideo, setYoutubeVideo] = React.useState("");
+  const [playYoutube, setPlayYoutube] = React.useState(false);
+  const [videoTitle, setVideoTitle] = React.useState("");
+
   const getYoutubeVideo = (item: any) => {
     const API_KEY = "AIzaSyCHIbZjybz14jrvYEiJ0NjYZiQY1GrSoNs";
 
     const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${
-      item?.title + "trailer" || item?.original_title + "trailer"
+      item?.title ? item?.title + "trailer" : item?.name + "trailer"
     }&key=${API_KEY}`;
 
     const fetchData = async (url: string) => {
@@ -31,10 +38,10 @@ const Hero = ({ data }: any) => {
         const json = await response.json();
 
         if (json?.items?.length > 0) {
-          window.location.href = `https://www.youtube.com/watch?v=${json?.items[0]?.id?.videoId}`;
+          setYoutubeVideo(json?.items[0]?.id?.videoId);
         }
 
-        console.log(json);
+        // console.log(json);
       } catch (error) {
         console.log(error);
       }
@@ -45,6 +52,15 @@ const Hero = ({ data }: any) => {
 
   return (
     <section className="bg-white dark:bg-gray-900">
+      {playYoutube && (
+        <VideoPlayer
+          close={() => {
+            setPlayYoutube(false);
+          }}
+          title={videoTitle}
+          url={`https://www.youtube.com/embed/${youtubeVideo}?autoplay=1&mute=0`}
+        />
+      )}
       <Slider {...movieSliderSettings}>
         {data?.map((item: any) => {
           return (
@@ -85,7 +101,16 @@ const Hero = ({ data }: any) => {
                       <div className="flex flex-row items-center my-4 gap-4">
                         <button
                           className="bg-gray-200 gap-2 hover:bg-gray-300 transition-all ease-in-out duration-300 text-black relative flex items-center  text-[1.3rem] tracking-wide font-bold py-3 px-6 rounded-md"
-                          onClick={() => getYoutubeVideo(item)}
+                          onClick={() => {
+                            getYoutubeVideo(item);
+                            setPlayYoutube(true);
+                            setVideoTitle(
+                              item?.title ||
+                                item?.original_title ||
+                                item?.name ||
+                                item?.original_name
+                            );
+                          }}
                         >
                           <PlayArrow className="text-[2rem]" /> Watch Trailer
                         </button>

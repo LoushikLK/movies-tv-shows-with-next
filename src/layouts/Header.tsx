@@ -13,7 +13,7 @@ const Header = ({ setDarkTheme }: any) => {
     setDarkTheme(event.target.checked);
   };
 
-  console.log(showSearch);
+  // console.log(showSearch);
 
   const navlinks = [
     {

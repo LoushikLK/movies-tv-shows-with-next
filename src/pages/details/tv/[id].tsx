@@ -19,7 +19,7 @@ const Details = () => {
 
   return (
     <Layouts title={"Movie Details"}>
-      <TvDetails data={apiData?.data} />
+      <TvDetails data={apiData?.data} loading={apiData.loading} />
     </Layouts>
   );
 };

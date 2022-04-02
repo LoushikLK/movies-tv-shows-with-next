@@ -1,6 +1,7 @@
 import Layouts from "layouts";
 import { ContentContainer, Hero } from "components/common";
 import { useApiData } from "hooks";
+import Animation from "assets/animations";
 
 const Movies = () => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
@@ -32,13 +33,25 @@ const Movies = () => {
 
   return (
     <Layouts title="Movies | MV">
-      <Hero data={heroPage?.data?.results} />
+      {heroPage?.loading ? (
+        <div className="flex items-center w-full h-screen justify-center">
+          <Animation.LoadingAnimation className="h-20 w-20" />
+        </div>
+      ) : (
+        <>
+          <Hero data={heroPage?.data?.results} />
 
-      {moviePage.map((movie, index) => {
-        return (
-          <ContentContainer path={movie.path} title={movie.title} key={index} />
-        );
-      })}
+          {moviePage.map((movie, index) => {
+            return (
+              <ContentContainer
+                path={movie.path}
+                title={movie.title}
+                key={index}
+              />
+            );
+          })}
+        </>
+      )}
     </Layouts>
   );
 };

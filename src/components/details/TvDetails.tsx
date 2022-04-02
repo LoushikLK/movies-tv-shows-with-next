@@ -5,16 +5,20 @@ import { Add, BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
-import { RecommendedContent } from "components/common";
+import { RecommendedContent, VideoPlayer } from "components/common";
+import Animation from "assets/animations";
 
 type Props = {
   data: any;
+  loading: boolean;
 };
 
-const TvDetails = ({ data }: Props) => {
+const TvDetails = ({ data, loading }: Props) => {
   console.log(data);
 
   const [mainCast, setMainCast] = React.useState([]);
+
+  const [playYoutube, setPlayYoutube] = React.useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -36,9 +40,26 @@ const TvDetails = ({ data }: Props) => {
   );
 
   return (
-    <>
-      {data ? (
-        <section className="bg-white dark:bg-gray-900 ">
+    <section className="bg-white dark:bg-gray-900 ">
+      {loading ? (
+        <div className="flex items-center w-full h-screen justify-center">
+          <Animation.LoadingAnimation className="h-20 w-20" />
+        </div>
+      ) : data ? (
+        <>
+          {playYoutube && (
+            <VideoPlayer
+              close={() => {
+                setPlayYoutube(false);
+              }}
+              title={data?.name || data?.original_original_name}
+              url={`https://www.youtube.com/embed/${
+                data?.videos?.results?.pop()?.key ||
+                (youtubeData?.data?.items &&
+                  youtubeData?.data?.items[0]?.id?.videoId)
+              }?autoplay=1&mute=0`}
+            />
+          )}
           <div
             style={{
               backgroundImage: `url(${
@@ -67,28 +88,13 @@ const TvDetails = ({ data }: Props) => {
                   </div>
                   {/* youtube video and visit site */}
                   <div className="flex flex-row justify-between w-full gap-2">
-                    {data?.videos?.results &&
-                    data?.videos?.results.length > 0 ? (
-                      <a
-                        href={`https://www.youtube.com/watch?v=${data?.videos?.results[0]?.key}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-gray-100/20  w-1/2 gap-2 justify-center border border-gray-300/20 hover:bg-gray-200 transition-all ease-in-out duration-300 text-teal-500 relative flex items-center  text-[1rem] tracking-wide font-bold py-3 px-2 "
+                    {data?.videos?.results && data?.videos?.results.length > 0 && (
+                      <div
+                        className="bg-gray-100/20  w-1/2 gap-2 justify-center border border-gray-300/20 hover:bg-gray-200 transition-all ease-in-out duration-300 text-teal-500 relative flex items-center  text-[1rem] tracking-wide font-bold py-3 px-2 cursor-pointer"
+                        onClick={() => setPlayYoutube(true)}
                       >
                         <PlayArrow className="text-[1.5rem]" /> Watch Trailer
-                      </a>
-                    ) : (
-                      <a
-                        href={`https://www.youtube.com/watch?v=${
-                          youtubeData?.data?.items &&
-                          youtubeData?.data?.items[0]?.id?.videoId
-                        }`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="bg-gray-100/20  w-1/2 gap-2 border justify-center border-gray-300/20 hover:bg-gray-200 transition-all ease-in-out duration-300 text-teal-500 relative flex items-center  text-[1rem] tracking-wide font-bold py-3 px-2"
-                      >
-                        <PlayArrow className="text-[1.5rem]" /> Watch Trailer
-                      </a>
+                      </div>
                     )}
                     {data?.homepage && (
                       <a
@@ -332,23 +338,23 @@ const TvDetails = ({ data }: Props) => {
           </div>
           <div className="w-full my-container ">
             {/* recommended content */}
-            <div className="w-full py-8 ">
-              <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
-                Recommended
-              </h3>
+            {data?.recommendations?.results?.length > 0 && (
+              <div className="w-full py-8 ">
+                <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
+                  Recommended
+                </h3>
 
-              <div className="w-full">
-                <RecommendedContent data={data?.recommendations?.results} />
+                <div className="w-full">
+                  <RecommendedContent data={data?.recommendations?.results} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        </section>
+        </>
       ) : (
-        <div className="text-teal-500">
-          <h1>Loading...</h1>
-        </div>
+        <p> No data </p>
       )}
-    </>
+    </section>
   );
 };
 
