@@ -1,4 +1,10 @@
-import { ModeNight, Notifications, Search, WbSunny } from "@mui/icons-material";
+import {
+  Logout,
+  ModeNight,
+  Notifications,
+  Search,
+  WbSunny,
+} from "@mui/icons-material";
 import { Avatar, Switch } from "@mui/material";
 import { SearchArea } from "components/search";
 import Link from "next/link";
@@ -6,11 +12,12 @@ import React from "react";
 
 const Header = ({ setDarkTheme }: any) => {
   const [showSearch, setShowSearch] = React.useState(false);
-  const [checked, setChecked] = React.useState(true);
+  const [checked, setChecked] = React.useState(false);
+  const [showProfile, setShowProfile] = React.useState(false);
 
   const handleTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
-    setDarkTheme(event.target.checked);
+    setDarkTheme(!event.target.checked);
   };
 
   // console.log(showSearch);
@@ -77,19 +84,37 @@ const Header = ({ setDarkTheme }: any) => {
             </span>
           </div>
 
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <span className="flex items-center  cursor-pointer text-teal-500 font-medium tracking-wide ">
               <Notifications className="h-8 w-8" />
             </span>
-          </div>
-          <div className="flex items-center">
-            <span className="flex items-center cursor-pointer text-white font-medium tracking-wide ">
+          </div> */}
+          <div className="flex items-center relative ">
+            <span
+              className="flex items-center cursor-pointer text-white font-medium tracking-wide "
+              onClick={() => {
+                setShowProfile(!showProfile);
+              }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/pHUMxUOHI6sRk4uGSpDdQPM2WaV.jpg"
                 sx={{ width: "2rem", height: "2rem" }}
               />
             </span>
+            {showProfile && (
+              <span className="absolute flex-col flex h-fit w-full min-w-[15rem] bg-white dark:bg-gray-900 top-0 translate-y-[55%] rounded-sm right-0 ">
+                <Link href={"/profile"}>
+                  <a className="text-black text-lg w-full  capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white hover:text-white hover:dark:text-black cursor-pointer transition-all ease-in-out duration-300 dark:text-white ">
+                    Loushik Giri
+                  </a>
+                </Link>
+                <span className="text-red-500 flex items-center gap-2 text-lg capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white cursor-pointer transition-all ease-in-out duration-300  ">
+                  <Logout className="text-red-500  " />
+                  Logout
+                </span>
+              </span>
+            )}
           </div>
           <div className="flex items-center bg-gray-900 dark:bg-gray-200/95 ml-4 px-4 rounded-full ">
             <span>

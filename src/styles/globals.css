@@ -46,5 +46,5 @@
 }
 
 .rating-icon .MuiRating-iconEmpty {
-  @layer text-gray-800 dark:text-gray-500;
+  @apply text-gray-800 dark:text-gray-500;
 }

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useDetails } from "hooks";
 
 const SearchCard = ({ result }: any) => {
-  console.log(result);
+  // console.log(result);
 
   const tvGenre = useDetails.getGenres("tv");
 
@@ -15,7 +15,7 @@ const SearchCard = ({ result }: any) => {
   return (
     <>
       {result?.media_type !== "person" && (
-        <div className="bg-white rounded-md  overflow-hidden dark:bg-gray-900 flex flex-row items-center ">
+        <div className="bg-teal-100  rounded-md  overflow-hidden dark:bg-teal-900 backdrop-brightness-50 flex flex-row items-center ">
           <div className="w-1/4 p-1 ">
             <div className="relative h-44 w-32  ">
               {result ? (
@@ -40,13 +40,19 @@ const SearchCard = ({ result }: any) => {
                   result?.original_name ||
                   result?.original_title}
               </h3>
-
-              <h3 className="text-black dark:text-white text-xl tracking-wide capitalize  ">
-                (
-                {result?.release_date?.split("-")[0] ||
-                  result?.first_air_date?.split("-")[0]}
-                )
-              </h3>
+              {result?.release_date && (
+                <h3 className="text-black dark:text-white text-xl tracking-wide capitalize  ">
+                  ({result?.release_date?.split("-")[0]})
+                </h3>
+              )}
+              {result?.first_air_date && (
+                <h3 className="text-black dark:text-white text-xl tracking-wide capitalize  ">
+                  (
+                  {result?.first_air_date?.split("-")[0] ||
+                    result?.last_air_date?.split("-")[0]}
+                  )
+                </h3>
+              )}
             </span>
             <span className="flex flex-row items-center text-black dark:text-white gap-4 ">
               <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
@@ -104,7 +110,7 @@ const SearchCard = ({ result }: any) => {
               Type - {result?.media_type}
             </span>
             <Link href={`/details/${result?.media_type}/${result?.id}`}>
-              <a className=" cursor-pointertext-teal-500 text-sm dark:bg-white  bg-gray-900 px-2 py-1 w-fit rounded-md ">
+              <a className=" cursor-pointer dark:text-teal-500 text-sm dark:bg-white text-white bg-gray-900 px-2 py-1 w-fit rounded-md ">
                 See Details
               </a>
             </Link>
