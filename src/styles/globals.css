@@ -48,3 +48,15 @@
 .rating-icon .MuiRating-iconEmpty {
   @apply text-gray-800 dark:text-gray-500;
 }
+
+.login-ui .MuiOutlinedInput-root {
+  height: 2.7rem !important;
+}
+
+.login-ui fieldset {
+  border: 1px solid #ffffff82;
+}
+
+.login-ui input {
+  @apply text-gray-200;
+}
