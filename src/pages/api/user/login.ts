@@ -5,11 +5,10 @@ type Data = {
   name: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  await connectMongo();
-  console.log(req.body.hi);
-  res.status(200).json({ name: "John Doe" });
-}
+const login = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+  try {
+    console.log("at login");
+  } catch (error) {}
+};
+
+export default connectMongo(login);

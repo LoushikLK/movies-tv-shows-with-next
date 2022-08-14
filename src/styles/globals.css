@@ -49,6 +49,16 @@
   @apply text-gray-800 dark:text-gray-500;
 }
 
+.login-ui {
+  background-image: url("../assets/static/register.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+  width: 100%;
+}
+
 .login-ui .MuiOutlinedInput-root {
   height: 2.7rem !important;
 }

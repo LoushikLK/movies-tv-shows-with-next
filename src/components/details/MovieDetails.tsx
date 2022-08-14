@@ -16,7 +16,7 @@ import {
   SimilarContent,
   VideoPlayer,
 } from "components/common";
-import Animation from "assets/animations";
+import { Loader } from "components/core";
 
 const MovieDetails = ({ data, loading }: any) => {
   // console.log(data);
@@ -51,7 +51,7 @@ const MovieDetails = ({ data, loading }: any) => {
     <section className="bg-white dark:bg-gray-900 ">
       {loading ? (
         <div className="flex items-center w-full h-screen justify-center">
-          <Animation.LoadingAnimation className="h-20 w-20" />
+          <Loader height={400} width={400} />
         </div>
       ) : data ? (
         <>
@@ -121,21 +121,19 @@ const MovieDetails = ({ data, loading }: any) => {
 
                 <div className="flex flex-col gap-4  ">
                   <div className="flex flex-row gap-2 items-center ">
-                    <h1 className="text-black font-bold dark:text-white text-5xl py-4 tracking-wider   ">
+                    <h1 className=" font-bold text-white text-5xl py-4 tracking-wider   ">
                       {data?.title || data?.original_title}
                     </h1>
-                    <span className="text-gray-700 font-bold dark:text-gray-300 text-3xl py-4 tracking-wider">
+                    <span className="text-gray-500 font-bold dark:text-gray-300 text-3xl py-4 tracking-wider">
                       ({data?.release_date?.split("-")[0] || data?.release_date}
                       )
                     </span>
                   </div>
-                  <p className="text-black text-xl dark:text-gray-300 ">
-                    {data?.tagline}
-                  </p>
+                  <p className=" text-xl text-gray-300 ">{data?.tagline}</p>
                   <div className="flex items-center gap-4 ">
                     <div className="flex items-center gap-2 ">
                       <div className=" flex flex-col justify-center items-center h-[5rem] w-[5rem] rounded-full border-4 border-teal-500/50 bg-teal-200/20  ">
-                        <span className="text-gray-900  dark:text-gray-300 text-2xl font-medium ">
+                        <span className="text-gray-500  dark:text-gray-300 text-2xl font-medium ">
                           {data?.vote_average * 10}%
                         </span>
                       </div>
@@ -143,33 +141,29 @@ const MovieDetails = ({ data, loading }: any) => {
                         User Score
                       </span>
                     </div>
-                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300  text-black dark:text-white font-medium cursor-pointer select-none ">
+                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300 text-white font-medium cursor-pointer select-none ">
                       <BookmarkAdd />
                       Add to favorites
-                    </div>
-                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500 transition-all ease-in-out duration-300   text-black dark:text-white font-medium cursor-pointer select-none ">
-                      <Add />
-                      Compare
                     </div>
                   </div>
 
                   <div className="flex flex-row items-center  flex-wrap gap-4">
-                    <span className="text-gray-600 text-base uppercase dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base uppercase dark:text-gray-400 tracking-wide  ">
                       {data?.original_language}
                     </span>
-                    <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base  dark:text-gray-400 tracking-wide  ">
                       {data?.release_date}
                     </span>
-                    <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base  dark:text-gray-400 tracking-wide  ">
                       {data?.runtime} min
                     </span>
-                    <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base  dark:text-gray-400 tracking-wide  ">
                       {data?.adult ? "18+" : "PG-13"}
                     </span>
-                    <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base  dark:text-gray-400 tracking-wide  ">
                       Budget - {data?.budget ? "$" + data?.budget : "N/A"}
                     </span>
-                    <span className="text-gray-600 text-base  dark:text-gray-400 tracking-wide  ">
+                    <span className="text-gray-500 text-base  dark:text-gray-400 tracking-wide  ">
                       Revenue - {data?.revenue ? "$" + data?.revenue : "N/A"}
                     </span>
                   </div>
@@ -187,11 +181,9 @@ const MovieDetails = ({ data, loading }: any) => {
                   </div>
 
                   <span className="flex flex-col">
-                    <h3 className="text-black dark:text-gray-100 text-2xl pb-4 ">
-                      Overview
-                    </h3>
+                    <h3 className="text-gray-100 text-2xl pb-4 ">Overview</h3>
 
-                    <p className="text-black text-lg tracking-wide dark:text-gray-300 ">
+                    <p className=" text-lg tracking-wide text-gray-300 ">
                       {data?.overview}
                     </p>
                   </span>
@@ -208,10 +200,10 @@ const MovieDetails = ({ data, loading }: any) => {
                               className="flex flex-col col-span-4 "
                               key={index}
                             >
-                              <h3 className="text-lg font-semibold text-black dark:text-white">
+                              <h3 className="text-lg font-semibold text-white">
                                 {item?.name}
                               </h3>
-                              <h3 className="text-base font-normal text-gray-700 dark:text-gray-200">
+                              <h3 className="text-base font-normal text-gray-300">
                                 {item?.job}
                               </h3>
                             </span>
@@ -257,7 +249,7 @@ const MovieDetails = ({ data, loading }: any) => {
                               <span className="text-teal-400 text-xs tracking-wide ">
                                 {item.name}
                               </span>
-                              <span className="text-gray-300 text-[11px] tracking-wide ">
+                              <span className=" text-gray-500 dark:text-gray-300 text-[11px] tracking-wide ">
                                 As {item.character}
                               </span>
                             </span>
@@ -365,7 +357,7 @@ const MovieDetails = ({ data, loading }: any) => {
           </div>
         </>
       ) : (
-        <p> No data </p>
+        ""
       )}
     </section>
   );

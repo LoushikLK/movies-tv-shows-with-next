@@ -77,7 +77,7 @@ const Hero = ({ data }: any) => {
                 }}
               >
                 <div className="w-full h-full gradient-bg ">
-                  <div className="my-container min-h-[80vh] overflow-hidden  flex items-center ">
+                  <div className="my-container min-h-screen overflow-hidden  flex items-center ">
                     <div className="flex flex-col my-[5rem]  md:w-full gap-4 lg:w-4/5 ">
                       <h1 className="text-white text-[3rem] md:text-[3.5rem] lg:text-[5rem] font-bold tracking-wide uppercase  ">
                         {(data && item?.title) ||
@@ -94,7 +94,9 @@ const Hero = ({ data }: any) => {
                               : `/details/movie/${item.id}`
                           }
                         >
-                          <a className="text-gray-500 inline ">...read more.</a>
+                          <a className="text-gray-500 inline text-sm">
+                            read more...
+                          </a>
                         </Link>
                       </span>
 

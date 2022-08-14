@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -9,7 +9,33 @@ type Props = {
 };
 
 export default ({ children, title = "Movie Hub" }: Props) => {
-  const [darkTheme, setDarkTheme] = useState(true);
+  const [darkTheme, setDarkTheme] = useState<boolean>();
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      if (darkTheme === undefined) return;
+      localStorage?.setItem("darkTheme", JSON.stringify(darkTheme));
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [darkTheme]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      let theme = localStorage?.getItem("darkTheme");
+      setDarkTheme(theme === "true");
+    }
+    return () => {
+      mounted = false;
+    };
+  });
+
+  console.log(darkTheme);
 
   return (
     <>
@@ -18,7 +44,7 @@ export default ({ children, title = "Movie Hub" }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={darkTheme ? "dark" : "light"}>
-        <Header setDarkTheme={setDarkTheme} />
+        <Header setDarkTheme={setDarkTheme} darkTheme={darkTheme} />
         <main>{children}</main>
         <Footer />
       </div>

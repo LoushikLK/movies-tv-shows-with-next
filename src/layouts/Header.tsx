@@ -10,17 +10,13 @@ import { SearchArea } from "components/search";
 import Link from "next/link";
 import React from "react";
 
-const Header = ({ setDarkTheme }: any) => {
+const Header = ({ setDarkTheme, darkTheme }: any) => {
   const [showSearch, setShowSearch] = React.useState(false);
-  const [checked, setChecked] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
 
   const handleTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked(event.target.checked);
     setDarkTheme(!event.target.checked);
   };
-
-  // console.log(showSearch);
 
   const navlinks = [
     {
@@ -39,10 +35,6 @@ const Header = ({ setDarkTheme }: any) => {
     {
       href: "/newpopular",
       text: "New & Popular",
-    },
-    {
-      href: "/mylist",
-      text: "My List",
     },
   ];
 
@@ -83,12 +75,6 @@ const Header = ({ setDarkTheme }: any) => {
               <Search className=" text-teal-500 h-8 w-8 " />
             </span>
           </div>
-
-          {/* <div className="flex items-center">
-            <span className="flex items-center  cursor-pointer text-teal-500 font-medium tracking-wide ">
-              <Notifications className="h-8 w-8" />
-            </span>
-          </div> */}
           <div className="flex items-center relative ">
             <span
               className="flex items-center cursor-pointer text-white font-medium tracking-wide "
@@ -122,7 +108,7 @@ const Header = ({ setDarkTheme }: any) => {
             </span>
             <span className="flex items-center  cursor-pointer text-teal-500 font-medium tracking-wide ">
               <Switch
-                checked={checked}
+                checked={!darkTheme}
                 onChange={handleTheme}
                 inputProps={{ "aria-label": "controlled" }}
               />

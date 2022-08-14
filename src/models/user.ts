@@ -5,6 +5,19 @@ let schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userName: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  isEmailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  isPhoneVerified: {
+    type: Boolean,
+    default: false,
+  },
   email: {
     type: String,
     required: true,

@@ -15,6 +15,8 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
   // console.log(moviesDetails);
 
   // console.log(genre);
+
+  console.log(moviesDetails);
   return (
     <>
       {moviesDetails?.first_air_date ? (
@@ -39,15 +41,15 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
               </div>
             </div>
             <div className="absolute group-hover:translate-y-[20%] transition-all ease-in-out duration-300 top-0 translate-y-[75%] left-0 w-full h-full bg-gradient-to-t backdrop-blur-sm from-black to-black/10  p-4 gap-2 flex flex-col ">
-              <h3 className="text-black dark:text-white  font-semibold text-base tracking-wide ">
+              <h3 className="text-white  font-semibold text-base tracking-wide ">
                 {moviesDetails?.title ||
                   moviesDetails?.name ||
                   moviesDetails?.original_name ||
                   moviesDetails?.original_title}
-                {"  "} (2022)
+                {"  "}
               </h3>
 
-              <span className="flex flex-row items-center text-black dark:text-white justify-between ">
+              <span className="flex flex-row items-center text-white justify-between ">
                 <Rating
                   sx={{ fontSize: "1.2rem" }}
                   name="read-only"
@@ -59,7 +61,7 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
                   readOnly
                 />
                 <span className="text-sm">
-                  {moviesDetails?.vote_average / 2}/5
+                  {new Date(moviesDetails?.first_air_date).getFullYear()}
                 </span>
               </span>
               <span className="flex flex-row gap-2 flex-wrap py-2 ">
@@ -79,7 +81,7 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
                 })}
               </span>
 
-              <span className="text-black dark:text-white text-sm tracking-wide text-clip ">
+              <span className="text-white text-sm tracking-wide text-clip ">
                 {moviesDetails?.overview?.substring(0, 75)}
                 <p className="text-xs">...read more</p>
               </span>
@@ -103,15 +105,14 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
               </div>
             </div>
             <div className="absolute group-hover:translate-y-[20%] transition-all ease-in-out duration-300 top-0 translate-y-[75%] left-0 w-full h-full bg-gradient-to-t backdrop-blur-sm from-black to-black/10  p-4 gap-2 flex flex-col ">
-              <h3 className="text-black dark:text-white  font-semibold text-base tracking-wide ">
+              <h3 className="text-white  font-semibold text-base tracking-wide ">
                 {moviesDetails?.title ||
                   moviesDetails?.name ||
                   moviesDetails?.original_name ||
                   moviesDetails?.original_title}
-                {"  "} (2022)
               </h3>
 
-              <span className="flex flex-row items-center text-black dark:text-white justify-between ">
+              <span className="flex flex-row items-center text-white justify-between ">
                 <Rating
                   sx={{ fontSize: "1.2rem" }}
                   name="read-only"
@@ -123,7 +124,7 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
                   readOnly
                 />
                 <span className="text-sm">
-                  {moviesDetails?.vote_average / 2}/5
+                  {new Date(moviesDetails?.release_date).getFullYear()}
                 </span>
               </span>
               <span className="flex flex-row gap-2 flex-wrap py-2 ">
@@ -143,7 +144,7 @@ const MovieCard = ({ moviesDetails, genres }: Props) => {
                 })}
               </span>
 
-              <span className="text-black dark:text-white text-sm tracking-wide text-clip ">
+              <span className="text-white text-sm tracking-wide text-clip ">
                 {moviesDetails?.overview?.substring(0, 75)}
                 <p className="text-xs">...read more</p>
               </span>

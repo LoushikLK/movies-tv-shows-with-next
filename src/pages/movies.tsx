@@ -1,10 +1,10 @@
 import Layouts from "layouts";
 import { ContentContainer, Hero } from "components/common";
 import { useApiData } from "hooks";
-import Animation from "assets/animations";
+import { Loader } from "components/core";
 
 const Movies = () => {
-  let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
+  let API_KEY = process?.env?.TMDB_API_KEY;
 
   const moviePage = [
     {
@@ -35,7 +35,7 @@ const Movies = () => {
     <Layouts title="Movies | MV">
       {heroPage?.loading ? (
         <div className="flex items-center w-full h-screen justify-center">
-          <Animation.LoadingAnimation className="h-20 w-20" />
+          <Loader height={400} width={400} />
         </div>
       ) : (
         <>

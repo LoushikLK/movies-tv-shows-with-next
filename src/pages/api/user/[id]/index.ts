@@ -5,12 +5,7 @@ type Data = {
   name: string;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  await connectMongo();
-
+const getUser = (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     const { id } = req.query;
     console.log(id);
@@ -19,4 +14,6 @@ export default async function handler(
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export default connectMongo(getUser);

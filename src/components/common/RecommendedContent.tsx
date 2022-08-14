@@ -43,7 +43,7 @@ const RecommendedContent = ({ data }: any) => {
                       {item?.original_title ? item?.title : item.name}
                     </h3>
                     <div className=" w-[4rem] flex flex-col justify-center items-center h-[4rem]  rounded-full border-4 border-teal-500/50 bg-teal-200/25  ">
-                      <span className="text-gray-900  dark:text-white text-base font-medium ">
+                      <span className="text-gray-200  dark:text-white text-base font-medium ">
                         {(item?.vote_average * 10).toFixed(0)}%
                       </span>
                     </div>

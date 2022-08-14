@@ -6,7 +6,8 @@ import { Add, BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
 import { RecommendedContent, VideoPlayer } from "components/common";
-import Animation from "assets/animations";
+
+import { Loader } from "components/core";
 
 type Props = {
   data: any;
@@ -43,7 +44,7 @@ const TvDetails = ({ data, loading }: Props) => {
     <section className="bg-white dark:bg-gray-900 ">
       {loading ? (
         <div className="flex items-center w-full h-screen justify-center">
-          <Animation.LoadingAnimation className="h-20 w-20" />
+          <Loader height={400} width={400} />
         </div>
       ) : data ? (
         <>
@@ -135,10 +136,6 @@ const TvDetails = ({ data, loading }: Props) => {
                     <div className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300  text-black dark:text-white font-medium cursor-pointer select-none ">
                       <BookmarkAdd />
                       Add to favorites
-                    </div>
-                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500 transition-all ease-in-out duration-300   text-black dark:text-white font-medium cursor-pointer select-none ">
-                      <Add />
-                      Compare
                     </div>
                   </div>
 

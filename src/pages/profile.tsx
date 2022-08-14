@@ -1,4 +1,3 @@
-import Animation from "assets/animations";
 import Layouts from "layouts";
 import Image from "next/image";
 import ProfileImg from "assets/profile.jpg";

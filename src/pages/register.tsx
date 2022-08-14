@@ -1,12 +1,20 @@
-import { Autocomplete, InputLabel, TextField } from "@mui/material";
+import { Autocomplete, InputLabel, Snackbar, TextField } from "@mui/material";
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { countries } from "assets/static";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Loading } from "assets/icons";
+import { useAppContext } from "context";
 
 const register = () => {
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
+  const { refetchUser } = useAppContext();
+
   //   console.log("hello");
   const formik = useFormik({
     initialValues: {
@@ -28,9 +36,8 @@ const register = () => {
         .min(6, "Password must be at least 6 characters"),
     }),
     onSubmit: async (values, submitProps) => {
-      console.log(values);
-      console.log(submitProps);
       try {
+        setLoading(true);
         const data = values;
         const options = {
           method: "POST",
@@ -39,13 +46,22 @@ const register = () => {
           },
           body: JSON.stringify(data),
         };
-
         const response = await fetch("/api/user/register", options);
-        const json = await response.json();
+
+        let json = await response.json();
+
         console.log(json);
-      } catch (error) {
-        console.log(error);
-        alert(error);
+
+        if (response.status === 200) {
+          setAlertMessage("Register Successful");
+          setAlert(true);
+          refetchUser();
+        }
+        setLoading(false);
+      } catch (error: any) {
+        setLoading(false);
+        setAlertMessage(error?.message);
+        setAlert(true);
       }
     },
   });
@@ -57,10 +73,18 @@ const register = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="dark login-ui">
-        <section className="bg-white w-full py-12 dark:bg-gray-900 flex items-center justify-center min-h-screen ">
+        <Snackbar
+          open={alert}
+          autoHideDuration={5000}
+          onClose={() => {
+            setAlert(false);
+          }}
+          message={alertMessage}
+        />
+        <section className=" w-full backdrop-brightness-50 py-12 flex items-center justify-center min-h-screen ">
           <div className="w-[400px] rounded-md flex flex-col bg-gray-100 border border-gray-400 dark:bg-gray-700 dark:border-gray-400 ">
             <h3 className="text-base py-4 w-full text-center text-gray-400 uppercase dark:text-gray-400 tracking-wider font-medium">
-              Welcome to movie hum
+              Welcome to movie hub
             </h3>
             <h3 className="text-xl  w-full text-center text-gray-800  dark:text-gray-200 tracking-wider font-medium">
               Create your account
@@ -126,7 +150,10 @@ const register = () => {
                 />
               </div>
               <div className="pb-4 gap-2 text-white flex flex-col ">
-                <InputLabel className="text-white text-sm font-medium tracking-wider ">
+                <InputLabel
+                  className="text-white text-sm font-medium tracking-wider "
+                  id="select-country-label"
+                >
                   {" "}
                   Country{" "}
                 </InputLabel>
@@ -226,9 +253,16 @@ const register = () => {
 
               <button
                 type="submit"
-                className="w-full hover:bg-teal-600 ease-in-out duration-300 transition-all bg-teal-500 rounded-sm text-white text-base tracking-wide  h-[2.5rem] "
+                className="w-full hover:bg-teal-600 ease-in-out duration-300 flex items-center justify-center transition-all bg-teal-500 rounded-sm text-white text-base tracking-wide  h-[2.5rem] "
               >
-                Register
+                {loading ? (
+                  <span className="flex items-center gap-8">
+                    <Loading className="animate-spin text-2xl " />
+                    Loading...
+                  </span>
+                ) : (
+                  "Register"
+                )}
               </button>
               <span className="text-sm py-4 w-full flex items-center text-center text-gray-400 gap-2 dark:text-gray-400 tracking-wider font-medium">
                 <h3>Already having an account?</h3>

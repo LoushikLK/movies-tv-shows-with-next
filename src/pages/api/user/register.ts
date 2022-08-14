@@ -2,17 +2,16 @@ import { connectMongo } from "middleware";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { userModel } from "models/user";
 import * as bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 type Data = {
   message: string;
   data?: object;
 };
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-    await connectMongo();
     const { method, body } = req;
+
     if (body.email && body.password && body.name && method === "POST") {
       const findUser = await userModel.findOne({
         email: body.email,
@@ -45,9 +44,36 @@ export default async function handler(
 
         const saveUser = await newUser.save();
 
-        console.log("saved");
+        if (!saveUser) {
+          return res.status(400).json({ message: "User could not be saved" });
+        }
 
-        res.status(200).json({ message: "success", data: saveUser });
+        let token = await jwt.sign(
+          {
+            _id: saveUser._id,
+            userName: saveUser?.userName,
+            email: saveUser?.email,
+          },
+          String(process?.env?.JWT_SECRET_KEY),
+          {
+            expiresIn: 3600 * 24,
+          }
+        );
+
+        res.setHeader(
+          "Set-Cookie",
+          serialize("authToken", token, {
+            path: "/",
+          })
+        );
+
+        res.status(200).json({
+          message: "success",
+          data: {
+            user: saveUser,
+            token: token,
+          },
+        });
         return;
       }
     } else {
@@ -58,4 +84,6 @@ export default async function handler(
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
+export default connectMongo(handler);
