@@ -8,7 +8,7 @@ import { AppContextProvider } from "context/useAppContext";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppContextProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </AppContextProvider>
   );
 }

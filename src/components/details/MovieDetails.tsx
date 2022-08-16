@@ -1,13 +1,7 @@
 import Image from "next/image";
 import React, { useEffect } from "react";
 
-import {
-  Add,
-  BookmarkAdd,
-  Cancel,
-  Language,
-  PlayArrow,
-} from "@mui/icons-material";
+import { BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
@@ -45,7 +39,15 @@ const MovieDetails = ({ data, loading }: any) => {
     };
   }, [data]);
 
-  console.log(data?.videos?.results);
+  const handleAddToFavorite = () => {
+    try {
+      console.log("handleAddToFavorite");
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
+  };
 
   return (
     <section className="bg-white dark:bg-gray-900 ">
@@ -141,7 +143,10 @@ const MovieDetails = ({ data, loading }: any) => {
                         User Score
                       </span>
                     </div>
-                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300 text-white font-medium cursor-pointer select-none ">
+                    <div
+                      className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300 text-white font-medium cursor-pointer select-none "
+                      onClick={handleAddToFavorite}
+                    >
                       <BookmarkAdd />
                       Add to favorites
                     </div>

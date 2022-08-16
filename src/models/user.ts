@@ -22,6 +22,15 @@ let schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  phone: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+
   password: {
     type: String,
     required: true,
@@ -33,18 +42,13 @@ let schema = new mongoose.Schema({
   updated_at: {
     type: String,
   },
-  favorites: [
-    {
-      type: String,
-      id: Number,
-    },
-  ],
-  watch_list: [
-    {
-      type: String,
-      id: Number,
-    },
-  ],
+  favorites: {
+    type: String,
+    ref: "favorite",
+  },
+  watch_list: {
+    type: String,
+  },
 });
 
 const userModel = mongoose.models.user || mongoose.model("user", schema);

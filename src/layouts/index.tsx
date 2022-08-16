@@ -35,8 +35,6 @@ export default ({ children, title = "Movie Hub" }: Props) => {
     };
   });
 
-  console.log(darkTheme);
-
   return (
     <>
       <Head>

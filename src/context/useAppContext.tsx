@@ -18,14 +18,12 @@ export const AppContextProvider = ({ children }: any) => {
     let mounted = true;
 
     if (mounted) {
-      setLoading(true);
-
       (async () => {
         try {
+          setLoading(true);
           let response = await fetch("/api/user/self");
           let user = await response.json();
-          console.log(user);
-          setUser(user);
+          setUser(user?.data);
           setLoading(false);
         } catch (error) {
           setLoading(false);

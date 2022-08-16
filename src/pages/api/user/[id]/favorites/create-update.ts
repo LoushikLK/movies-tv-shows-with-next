@@ -8,11 +8,11 @@ type Data = {
   data?: any;
 };
 
-const getUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
-    if (req.method !== "GET") throw new Error("Method not supported");
+    if (req?.method !== "POST") throw new Error("Method not supported");
 
-    const { id } = req.query;
+    let { id } = req?.query;
 
     const userExist = await userModel.aggregate([
       {
@@ -20,20 +20,18 @@ const getUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           _id: new mongoose.Types.ObjectId(id as string),
         },
       },
+
       {
-        $project: {
-          _id: 1,
-          name: 1,
-          email: 1,
-          phone: 1,
-          country: 1,
-          userName: 1,
-          isEmailVerified: 1,
-          isPhoneVerified: 1,
-          created_at: 1,
+        $lookup: {
+          from: "favorites",
+          localField: "favorites",
+          foreignField: "_id",
+          as: "favoriteShow",
         },
       },
     ]);
+
+    // console.log(userExist);
 
     if (!userExist) throw new Error("User not found");
 
@@ -46,12 +44,11 @@ const getUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       return res.status(404).json({
         message: error.message,
       });
-    } else {
-      return res.status(404).json({
-        message: "Internal Server Error",
-      });
     }
+    return res.status(404).json({
+      message: "Internal Server Error",
+    });
   }
 };
 
-export default connectMongo(getUser);
+export default connectMongo(handler);

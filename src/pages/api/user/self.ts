@@ -13,7 +13,7 @@ const getUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     let userId = req?.body?.user;
 
-    console.log(userId);
+    // console.log(userId);
 
     let userData = await userModel.aggregate([
       {
@@ -28,18 +28,18 @@ const getUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
           email: 1,
           phone: 1,
           country: 1,
-          username: 1,
+          userName: 1,
           isEmailVerified: 1,
           isPhoneVerified: 1,
         },
       },
     ]);
 
-    console.log(userData);
+    // console.log(userData);
 
     if (!userData) throw new Error(`User ${userId} is not found`);
 
-    res.status(200).json({ data: userData, message: "Success" });
+    res.status(200).json({ data: userData[0], message: "Success" });
   } catch (error) {
     if (error instanceof Error) {
       return res.status(400).json({

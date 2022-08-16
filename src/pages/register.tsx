@@ -50,11 +50,10 @@ const register = () => {
 
         let json = await response.json();
 
-        console.log(json);
-
         if (response.status === 200) {
           setAlertMessage("Register Successful");
           setAlert(true);
+          formik.resetForm();
           refetchUser();
         }
         setLoading(false);
@@ -216,6 +215,7 @@ const register = () => {
                   fullWidth
                   placeholder="Enter your Phone"
                   name="phone"
+                  type={"number"}
                   value={formik.values.phone}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
