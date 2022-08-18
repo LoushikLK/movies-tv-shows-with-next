@@ -1,5 +1,5 @@
-import { connectMongo } from "middleware";
-import { userModel } from "models/user";
+import { auth, connectMongo } from "middleware";
+import { favoritesModel } from "models/favorites";
 import mongoose from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -13,30 +13,58 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     if (req?.method !== "POST") throw new Error("Method not supported");
 
     let { id } = req?.query;
+    let { type, showId } = req?.body;
 
-    const userExist = await userModel.aggregate([
+    if (!type || !showId) throw new Error("Send all parameters");
+
+    const userExist = await favoritesModel.aggregate([
       {
         $match: {
-          _id: new mongoose.Types.ObjectId(id as string),
-        },
-      },
-
-      {
-        $lookup: {
-          from: "favorites",
-          localField: "favorites",
-          foreignField: "_id",
-          as: "favoriteShow",
+          user: id,
         },
       },
     ]);
 
     // console.log(userExist);
 
-    if (!userExist) throw new Error("User not found");
+    if (!userExist || userExist.length === 0) {
+      let newData = new favoritesModel({
+        user: id,
+        favorites: [
+          {
+            showId: showId,
+            showType: type,
+          },
+        ],
+      });
 
+      let saved = await newData?.save();
+
+      if (!saved) throw new Error("No favorites created");
+
+      return res.status(200).json({
+        message: "Favorites created successfully",
+        data: saved,
+      });
+    }
+
+    const updateFavorites = await favoritesModel.updateOne(
+      {
+        _id: new mongoose.Types.ObjectId(userExist[0]?._id as string),
+      },
+      {
+        $push: {
+          favorites: {
+            showId: showId,
+            showType: type,
+          },
+        },
+      }
+    );
+
+    if (!updateFavorites) throw new Error("Couldn't update favorites");
     return res?.status(200).json({
-      data: userExist[0],
+      data: updateFavorites,
       message: "Success",
     });
   } catch (error) {
@@ -51,4 +79,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   }
 };
 
-export default connectMongo(handler);
+export default connectMongo(auth(handler));

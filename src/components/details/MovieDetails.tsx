@@ -11,12 +11,15 @@ import {
   VideoPlayer,
 } from "components/common";
 import { Loader } from "components/core";
+import { useAppContext } from "context";
 
 const MovieDetails = ({ data, loading }: any) => {
   // console.log(data);
 
   const [mainCast, setMainCast] = React.useState([]);
   const [playYoutube, setPlayYoutube] = React.useState(false);
+
+  const { user } = useAppContext();
 
   const youtubeData = useDetails.getYoutubeData(
     data?.title || data?.original_title
@@ -39,9 +42,29 @@ const MovieDetails = ({ data, loading }: any) => {
     };
   }, [data]);
 
-  const handleAddToFavorite = () => {
+  console.log(data);
+
+  const handleAddToFavorite = async () => {
     try {
       console.log("handleAddToFavorite");
+
+      const response = await fetch(
+        `/api/user/${user?._id}/favorites/create-update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "MOVIE",
+            showId: data?.id,
+          }),
+        }
+      );
+
+      let json = await response.json();
+
+      console.log(json);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);
@@ -136,7 +159,7 @@ const MovieDetails = ({ data, loading }: any) => {
                     <div className="flex items-center gap-2 ">
                       <div className=" flex flex-col justify-center items-center h-[5rem] w-[5rem] rounded-full border-4 border-teal-500/50 bg-teal-200/20  ">
                         <span className="text-gray-500  dark:text-gray-300 text-2xl font-medium ">
-                          {data?.vote_average * 10}%
+                          {(data?.vote_average * 10).toFixed(1)}%
                         </span>
                       </div>
                       <span className="text-teal-500 text-xl font-medium ">
@@ -275,7 +298,6 @@ const MovieDetails = ({ data, loading }: any) => {
                 {data?.reviews?.results?.length > 0 ? (
                   <div className="w-full flex flex-col gap-4 ">
                     {data?.reviews?.results?.map((item: any, index: number) => {
-                      // console.log(`${item?.author_details?.avatar_path}`.slice(1));
                       return (
                         <div
                           className="flex flex-row gap-4 items-start shadow-[0px_0px_5px_0px] shadow-gray-800/40 dark:shadow-white/50 rounded-md p-8  "

@@ -13,6 +13,7 @@ const auth = (handler: any) => async (req: any, res: any, next: any) => {
 
     if (!jwtToken) throw new Error("Provided token is not valid");
     req.body = {
+      ...req.body,
       user: jwtToken._id,
     };
     return handler(req, res, next);

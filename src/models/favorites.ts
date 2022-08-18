@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 let schema = new mongoose.Schema({
   user: {
     type: String,
-    ref: "user",
   },
   favorites: [
     {
@@ -13,6 +12,7 @@ let schema = new mongoose.Schema({
       },
       showType: {
         type: String,
+        unique: true,
       },
     },
   ],
