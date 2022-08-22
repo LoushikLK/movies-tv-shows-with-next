@@ -1,7 +1,12 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
+import {
+  BookmarkAdd,
+  BookmarkAdded,
+  Language,
+  PlayArrow,
+} from "@mui/icons-material";
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
@@ -12,12 +17,13 @@ import {
 } from "components/common";
 import { Loader } from "components/core";
 import { useAppContext } from "context";
+import Swal from "sweetalert2";
 
 const MovieDetails = ({ data, loading }: any) => {
-  // console.log(data);
-
-  const [mainCast, setMainCast] = React.useState([]);
-  const [playYoutube, setPlayYoutube] = React.useState(false);
+  const [mainCast, setMainCast] = useState([]);
+  const [playYoutube, setPlayYoutube] = useState(false);
+  const [favorites, setFavorite] = useState(false);
+  const [realtimeData, setRealtimeData] = useState(false);
 
   const { user } = useAppContext();
 
@@ -25,7 +31,38 @@ const MovieDetails = ({ data, loading }: any) => {
     data?.title || data?.original_title
   );
 
-  // console.log(youtubeData);
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      (async () => {
+        try {
+          const response = await fetch(
+            `/api/user/${user?._id}/favorites/check-favorites`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                type: "MOVIE",
+                showId: data?.id,
+              }),
+            }
+          );
+          let json = await response.json();
+
+          if (response.status === 200) {
+            setFavorite(json?.data?.exist);
+          }
+        } catch (error) {}
+      })();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [realtimeData]);
 
   useEffect(() => {
     let mounted = true;
@@ -42,12 +79,8 @@ const MovieDetails = ({ data, loading }: any) => {
     };
   }, [data]);
 
-  console.log(data);
-
   const handleAddToFavorite = async () => {
     try {
-      console.log("handleAddToFavorite");
-
       const response = await fetch(
         `/api/user/${user?._id}/favorites/create-update`,
         {
@@ -64,11 +97,35 @@ const MovieDetails = ({ data, loading }: any) => {
 
       let json = await response.json();
 
-      console.log(json);
+      if (response.status === 200) {
+        setRealtimeData((prev) => {
+          return !prev;
+        });
+        return Swal.fire({
+          icon: "success",
+          text: json.message,
+          title: "Success",
+        });
+      }
+      Swal.fire({
+        icon: "error",
+        text: json.message,
+        title: "Error",
+      });
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        return Swal.fire({
+          icon: "error",
+          text: error.message,
+          title: "Error",
+        });
       }
+
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+      });
     }
   };
 
@@ -170,8 +227,17 @@ const MovieDetails = ({ data, loading }: any) => {
                       className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300 text-white font-medium cursor-pointer select-none "
                       onClick={handleAddToFavorite}
                     >
-                      <BookmarkAdd />
-                      Add to favorites
+                      {favorites ? (
+                        <>
+                          <BookmarkAdded />
+                          In Favorites
+                        </>
+                      ) : (
+                        <>
+                          <BookmarkAdd />
+                          Add to favorites
+                        </>
+                      )}
                     </div>
                   </div>
 

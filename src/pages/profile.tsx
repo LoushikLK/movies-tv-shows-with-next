@@ -4,12 +4,15 @@ import { useApiData } from "hooks";
 import { useAppContext } from "context";
 import { Loader } from "components/core";
 import { Avatar } from "@mui/material";
+import { FavoriteCard } from "components/common";
 const Profile = () => {
   let { user } = useAppContext();
 
   const { data, loading } = useApiData(`/api/user/${user?._id}`);
 
   const favorites = useApiData(`/api/user/${user?._id}/favorites`);
+
+  // console.log(favorites);
 
   return (
     <>
@@ -75,8 +78,22 @@ const Profile = () => {
                 <div className="text-lg font-semibold text-black dark:text-white tracking-wide">
                   Favorites
                 </div>
-                {favorites?.data?.data?.favoriteShow?.length > 0 ? (
-                  ""
+                {favorites?.data?.data?.favorites?.length > 0 ? (
+                  <div className="w-full grid grid-cols-12 gap-4 py-4 ">
+                    {favorites?.data?.data?.favorites?.map(
+                      (item: any, index: number) => (
+                        <div
+                          className=" xs:col-span-12  col-span-6 md:col-span-4 lg:col-span-3 xl:col-span-2 flex items-center justify-center "
+                          key={index}
+                        >
+                          <FavoriteCard
+                            type={item?.showType}
+                            id={item?.showId}
+                          />
+                        </div>
+                      )
+                    )}
+                  </div>
                 ) : (
                   <h3 className="font-medium tracking-wide text-lg border border-teal-500 text-black dark:text-white w-fit rounded-full p-2 mt-8 ">
                     No favorites

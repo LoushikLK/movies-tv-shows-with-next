@@ -1,13 +1,21 @@
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Add, BookmarkAdd, Language, PlayArrow } from "@mui/icons-material";
+import {
+  Add,
+  BookmarkAdd,
+  BookmarkAdded,
+  Language,
+  PlayArrow,
+} from "@mui/icons-material";
 
 import { useDetails } from "hooks";
 import { Avatar, Rating } from "@mui/material";
 import { RecommendedContent, VideoPlayer } from "components/common";
 
 import { Loader } from "components/core";
+import Swal from "sweetalert2";
+import { useAppContext } from "context";
 
 type Props = {
   data: any;
@@ -15,11 +23,13 @@ type Props = {
 };
 
 const TvDetails = ({ data, loading }: Props) => {
-  console.log(data);
+  const [mainCast, setMainCast] = useState([]);
+  const [favorites, setFavorite] = useState(false);
 
-  const [mainCast, setMainCast] = React.useState([]);
+  const [playYoutube, setPlayYoutube] = useState(false);
+  const [realtimeData, setRealtimeData] = useState(false);
 
-  const [playYoutube, setPlayYoutube] = React.useState(false);
+  const { user } = useAppContext();
 
   useEffect(() => {
     let mounted = true;
@@ -39,6 +49,89 @@ const TvDetails = ({ data, loading }: Props) => {
   const youtubeData = useDetails.getYoutubeData(
     data?.name || data?.original_name
   );
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      (async () => {
+        try {
+          const response = await fetch(
+            `/api/user/${user?._id}/favorites/check-favorites`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                type: "TV",
+                showId: data?.id,
+              }),
+            }
+          );
+          let json = await response.json();
+
+          if (response.status === 200) {
+            setFavorite(json?.data?.exist);
+          }
+        } catch (error) {}
+      })();
+    }
+
+    return () => {
+      mounted = false;
+    };
+  }, [realtimeData]);
+
+  const handleAddToFavorite = async () => {
+    try {
+      const response = await fetch(
+        `/api/user/${user?._id}/favorites/create-update`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            type: "TV",
+            showId: data?.id,
+          }),
+        }
+      );
+
+      let json = await response.json();
+
+      if (response.status === 200) {
+        setRealtimeData((prev) => {
+          return !prev;
+        });
+        return Swal.fire({
+          icon: "success",
+          text: json.message,
+          title: "Success",
+        });
+      }
+      Swal.fire({
+        icon: "error",
+        text: json.message,
+        title: "Error",
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        return Swal.fire({
+          icon: "error",
+          text: error.message,
+          title: "Error",
+        });
+      }
+
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong",
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <section className="bg-white dark:bg-gray-900 ">
@@ -133,9 +226,21 @@ const TvDetails = ({ data, loading }: Props) => {
                         User Score
                       </span>
                     </div>
-                    <div className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300  text-black dark:text-white font-medium cursor-pointer select-none ">
-                      <BookmarkAdd />
-                      Add to favorites
+                    <div
+                      className="flex flex-row gap-2 justify-center hover:text-gray-500  transition-all ease-in-out duration-300  text-black dark:text-white font-medium cursor-pointer select-none "
+                      onClick={handleAddToFavorite}
+                    >
+                      {favorites ? (
+                        <>
+                          <BookmarkAdded />
+                          In Favorites
+                        </>
+                      ) : (
+                        <>
+                          <BookmarkAdd />
+                          Add to favorites
+                        </>
+                      )}
                     </div>
                   </div>
 

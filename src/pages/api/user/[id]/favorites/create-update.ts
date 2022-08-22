@@ -1,6 +1,5 @@
 import { auth, connectMongo } from "middleware";
 import { favoritesModel } from "models/favorites";
-import mongoose from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
@@ -48,9 +47,49 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       });
     }
 
-    const updateFavorites = await favoritesModel.updateOne(
+    let dataAlreadyExist = await favoritesModel.aggregate([
       {
-        _id: new mongoose.Types.ObjectId(userExist[0]?._id as string),
+        $match: {
+          user: id,
+        },
+      },
+      {
+        $unwind: "$favorites",
+      },
+      {
+        $match: {
+          "favorites.showId": String(showId),
+          "favorites.showType": String(type).toUpperCase(),
+        },
+      },
+    ]);
+
+    if (!dataAlreadyExist || dataAlreadyExist.length !== 0) {
+      let newData = await favoritesModel.findOneAndUpdate(
+        {
+          user: id,
+        },
+        {
+          $pull: {
+            favorites: {
+              showId: String(showId),
+              showType: String(type).toUpperCase(),
+            },
+          },
+        }
+      );
+
+      if (!newData) throw new Error(`Could not update favorites`);
+
+      return res.status(200).json({
+        message: "Favorites removed successfully",
+        data: newData,
+      });
+    }
+
+    let setNewMovie = await favoritesModel.updateOne(
+      {
+        user: id,
       },
       {
         $push: {
@@ -59,13 +98,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
             showType: type,
           },
         },
+      },
+      {
+        new: true,
       }
     );
 
-    if (!updateFavorites) throw new Error("Couldn't update favorites");
-    return res?.status(200).json({
-      data: updateFavorites,
-      message: "Success",
+    if (!setNewMovie) throw new Error("Couldn't update favorites");
+
+    res.status(200).json({
+      message: "Favorites updated successfully",
+      data: setNewMovie,
     });
   } catch (error) {
     if (error instanceof Error) {

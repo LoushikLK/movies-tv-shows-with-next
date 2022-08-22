@@ -1,4 +1,5 @@
 import { connectMongo } from "middleware";
+import { favoritesModel } from "models/favorites";
 import { userModel } from "models/user";
 import mongoose from "mongoose";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -14,33 +15,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     let { id } = req?.query;
 
-    const userExist = await userModel.aggregate([
-      {
-        $match: {
-          _id: new mongoose.Types.ObjectId(id as string),
-        },
-      },
-      {
-        $lookup: {
-          from: "favorites",
-          localField: "favorites",
-          foreignField: "_id",
-          as: "favoriteShow",
-        },
-      },
-      {
-        $project: {
-          _id: 1,
-          favoriteShow: 1,
-        },
-      },
-    ]);
+    const userFavorites = await favoritesModel
+      .findOne({
+        user: id,
+      })
+      .limit(20);
 
-    if (!userExist) throw new Error("User not found");
+    if (!userFavorites) throw new Error("No favorites found");
 
-    return res?.status(200).json({
-      data: userExist[0],
-      message: "Success",
+    return res.status(200).json({
+      message: "Favorites",
+      data: userFavorites,
     });
   } catch (error) {
     if (error instanceof Error) {
