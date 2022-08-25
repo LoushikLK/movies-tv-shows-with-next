@@ -17,7 +17,7 @@ const Profile = () => {
   return (
     <>
       {loading ? (
-        <div className="w-full min-h-screen items-center justify-center ">
+        <div className="w-full flex  min-h-screen items-center justify-center ">
           <Loader height={400} width={400} />
         </div>
       ) : (

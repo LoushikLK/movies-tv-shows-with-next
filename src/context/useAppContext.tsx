@@ -2,7 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AppContext = createContext({});
 
-export const AppContextProvider = ({ children }: any) => {
+type Props = {
+  children: any;
+};
+
+export const AppContextProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
   const [refetchUser, setRefetchUser] = useState(false);
   const [user, setUser] = useState<any>({
