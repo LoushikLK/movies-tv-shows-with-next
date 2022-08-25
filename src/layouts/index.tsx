@@ -8,7 +8,7 @@ type Props = {
   title?: string;
 };
 
-export default ({ children, title = "Movie Hub" }: Props) => {
+const Layout = ({ children, title = "Movie Hub" }: Props) => {
   const [darkTheme, setDarkTheme] = useState<boolean>();
 
   useEffect(() => {
@@ -49,3 +49,5 @@ export default ({ children, title = "Movie Hub" }: Props) => {
     </>
   );
 };
+
+export default Layout;

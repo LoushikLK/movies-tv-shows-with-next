@@ -46,7 +46,7 @@ const TvDetails = ({ data, loading }: Props) => {
     };
   }, [data]);
 
-  const youtubeData = useDetails.getYoutubeData(
+  const youtubeData = useDetails.useYoutubeData(
     data?.name || data?.original_name
   );
 

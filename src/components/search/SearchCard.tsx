@@ -8,9 +8,9 @@ import { useDetails } from "hooks";
 const SearchCard = ({ result }: any) => {
   // console.log(result);
 
-  const tvGenre = useDetails.getGenres("tv");
+  const tvGenre = useDetails.useGenres("tv");
 
-  const movieGenre = useDetails.getGenres("movie");
+  const movieGenre = useDetails.useGenres("movie");
 
   return (
     <>

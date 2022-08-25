@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 type Genre = "movie" | "tv";
 
-const getGenres = (type: Genre) => {
+const useGenres = (type: Genre) => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
 
   const [data, setData] = useState<any>({});
@@ -31,7 +31,7 @@ const getGenres = (type: Genre) => {
   return { data, loading, error };
 };
 
-const getYoutubeData = (title: any) => {
+const useYoutubeData = (title: any) => {
   const API_KEY = "AIzaSyCHIbZjybz14jrvYEiJ0NjYZiQY1GrSoNs";
 
   const [data, setData] = useState<any>({});
@@ -63,8 +63,8 @@ const getYoutubeData = (title: any) => {
 };
 
 const useDetails = {
-  getGenres,
-  getYoutubeData,
+  useGenres,
+  useYoutubeData,
 };
 
 export default useDetails;

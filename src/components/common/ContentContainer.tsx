@@ -13,9 +13,9 @@ const ContentContainer = ({ path, title }: Props) => {
 
   const apiData: any = useApiData(path);
 
-  const tvGenre = useDetails.getGenres("tv");
+  const tvGenre = useDetails.useGenres("tv");
 
-  const movieGenre = useDetails.getGenres("movie");
+  const movieGenre = useDetails.useGenres("movie");
 
   return (
     <section className="bg-white dark:bg-gray-900">

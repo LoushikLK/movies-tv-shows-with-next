@@ -27,7 +27,7 @@ const MovieDetails = ({ data, loading }: any) => {
 
   const { user } = useAppContext();
 
-  const youtubeData = useDetails.getYoutubeData(
+  const youtubeData = useDetails.useYoutubeData(
     data?.title || data?.original_title
   );
 
