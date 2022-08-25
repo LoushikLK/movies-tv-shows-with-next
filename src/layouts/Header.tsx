@@ -9,12 +9,15 @@ import { Avatar, ClickAwayListener, Switch } from "@mui/material";
 import { SearchArea } from "components/search";
 import { useAppContext } from "context";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import Swal from "sweetalert2";
 
 const Header = ({ setDarkTheme, darkTheme }: any) => {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+
+  const router = useRouter();
 
   const handleTheme = (event: ChangeEvent<HTMLInputElement>) => {
     setDarkTheme(!event.target.checked);
@@ -77,6 +80,11 @@ const Header = ({ setDarkTheme, darkTheme }: any) => {
     }
   };
 
+  const handleProfileClick = () => {
+    if (user?._id) return;
+    router.push("/login");
+  };
+
   return (
     <nav className="bg-white  dark:bg-gray-900 z-50 sticky top-0 ">
       <div className="my-container flex flex-row justify-between  ">
@@ -127,6 +135,7 @@ const Header = ({ setDarkTheme, darkTheme }: any) => {
                     alt="Remy Sharp"
                     src={""}
                     sx={{ width: "2rem", height: "2rem" }}
+                    onClick={handleProfileClick}
                   >
                     {(user?.userName && user?.userName[0]) ||
                       (user?.name && user?.name[0])}
