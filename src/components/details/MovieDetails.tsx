@@ -64,7 +64,7 @@ const MovieDetails = ({ data, loading }: any) => {
     return () => {
       mounted = false;
     };
-  }, [realtimeData, data?.id]);
+  }, [realtimeData, data?.id, user?._id]);
 
   useEffect(() => {
     let mounted = true;

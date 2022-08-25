@@ -1,13 +1,13 @@
-import React from "react";
+import { useEffect, useState } from "react";
 
 type Genre = "movie" | "tv";
 
 const getGenres = (type: Genre) => {
   let API_KEY = "api_key=023e7fa152989334a68b0ed2985b5fb8";
 
-  const [data, setData] = React.useState<any>({});
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<any>(null);
+  const [data, setData] = useState<any>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
 
   const fetchData = async (type: string) => {
     setLoading(true);
@@ -24,7 +24,7 @@ const getGenres = (type: Genre) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(type);
   }, [type]);
 
@@ -34,9 +34,9 @@ const getGenres = (type: Genre) => {
 const getYoutubeData = (title: any) => {
   const API_KEY = "AIzaSyCHIbZjybz14jrvYEiJ0NjYZiQY1GrSoNs";
 
-  const [data, setData] = React.useState<any>({});
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<any>(null);
+  const [data, setData] = useState<any>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
 
   const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${
     title + "trailer"
@@ -55,7 +55,7 @@ const getYoutubeData = (title: any) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData(url);
   }, [title]);
 

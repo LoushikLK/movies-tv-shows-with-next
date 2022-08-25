@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { Loading } from "assets/icons";
 import { useAppContext } from "context";
 
-const register = () => {
+const Register = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -280,4 +280,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;

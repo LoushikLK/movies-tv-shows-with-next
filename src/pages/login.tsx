@@ -5,11 +5,11 @@ import { useFormik } from "formik";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useState } from "react";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
-const login = () => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -153,7 +153,7 @@ const login = () => {
                 )}
               </button>
               <span className="text-sm py-4 w-full flex items-center text-center text-gray-400 gap-2 dark:text-gray-400 tracking-wider font-medium">
-                <h3>Don't have an account?</h3>
+                <h3>Don{"'"}t have an account?</h3>
                 <h3>
                   <Link href={"/register"}>
                     <a className="text-base text-white">Register</a>
@@ -168,4 +168,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

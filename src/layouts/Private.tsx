@@ -1,6 +1,7 @@
+import { Loader } from "components/core";
 import { useAppContext } from "context";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const Private = ({ children }: any) => {
   const { user, loading } = useAppContext();
@@ -18,9 +19,19 @@ const Private = ({ children }: any) => {
     return () => {
       mounted = false;
     };
-  }, [user, loading]);
+  }, [user, loading, router]);
 
-  return <main>{user?._id ? children : <></>}</main>;
+  return (
+    <main>
+      {user?._id ? (
+        children
+      ) : (
+        <div className="min-h-screen flex items-center justify-center ">
+          <Loader height={400} width={400} />
+        </div>
+      )}
+    </main>
+  );
 };
 
 export default Private;
