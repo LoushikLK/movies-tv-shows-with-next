@@ -81,7 +81,7 @@ const TvDetails = ({ data, loading }: Props) => {
     return () => {
       mounted = false;
     };
-  }, [realtimeData]);
+  }, [realtimeData, data?.id]);
 
   const handleAddToFavorite = async () => {
     try {

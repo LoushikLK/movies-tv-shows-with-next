@@ -52,6 +52,8 @@ const MovieDetails = ({ data, loading }: any) => {
           );
           let json = await response.json();
 
+          // console.log(json);
+
           if (response.status === 200) {
             setFavorite(json?.data?.exist);
           }
@@ -62,7 +64,7 @@ const MovieDetails = ({ data, loading }: any) => {
     return () => {
       mounted = false;
     };
-  }, [realtimeData]);
+  }, [realtimeData, data?.id]);
 
   useEffect(() => {
     let mounted = true;

@@ -5,16 +5,18 @@ import {
   Search,
   WbSunny,
 } from "@mui/icons-material";
-import { Avatar, Switch } from "@mui/material";
+import { Avatar, ClickAwayListener, Switch } from "@mui/material";
 import { SearchArea } from "components/search";
+import { useAppContext } from "context";
 import Link from "next/link";
-import React from "react";
+import { ChangeEvent, useState } from "react";
+import Swal from "sweetalert2";
 
 const Header = ({ setDarkTheme, darkTheme }: any) => {
-  const [showSearch, setShowSearch] = React.useState(false);
-  const [showProfile, setShowProfile] = React.useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
-  const handleTheme = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTheme = (event: ChangeEvent<HTMLInputElement>) => {
     setDarkTheme(!event.target.checked);
   };
 
@@ -37,6 +39,43 @@ const Header = ({ setDarkTheme, darkTheme }: any) => {
       text: "New & Popular",
     },
   ];
+
+  const { user, refetchUser } = useAppContext();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/user/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      let json = await response.json();
+
+      if (response.status !== 200) {
+        return Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: json.message,
+        });
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: json.message,
+      });
+
+      refetchUser();
+    } catch (error) {
+      Swal.fire({
+        title: "Oops, something went wrong",
+        icon: "error",
+        text: "Oops, something went wrong. Please try again.",
+      });
+    }
+  };
 
   return (
     <nav className="bg-white  dark:bg-gray-900 z-50 sticky top-0 ">
@@ -76,31 +115,45 @@ const Header = ({ setDarkTheme, darkTheme }: any) => {
             </span>
           </div>
           <div className="flex items-center relative ">
-            <span
-              className="flex items-center cursor-pointer text-white font-medium tracking-wide "
-              onClick={() => {
-                setShowProfile(!showProfile);
-              }}
-            >
-              <Avatar
-                alt="Remy Sharp"
-                src="https://www.themoviedb.org/t/p/w300_and_h450_bestv2/pHUMxUOHI6sRk4uGSpDdQPM2WaV.jpg"
-                sx={{ width: "2rem", height: "2rem" }}
-              />
-            </span>
-            {showProfile && (
-              <span className="absolute flex-col flex h-fit w-full min-w-[15rem] bg-white dark:bg-gray-900 top-0 translate-y-[55%] rounded-sm right-0 ">
-                <Link href={"/profile"}>
-                  <a className="text-black text-lg w-full  capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white hover:text-white hover:dark:text-black cursor-pointer transition-all ease-in-out duration-300 dark:text-white ">
-                    Loushik Giri
-                  </a>
-                </Link>
-                <span className="text-red-500 flex items-center gap-2 text-lg capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white cursor-pointer transition-all ease-in-out duration-300  ">
-                  <Logout className="text-red-500  " />
-                  Logout
+            <ClickAwayListener onClickAway={() => setShowProfile(false)}>
+              <div>
+                <span
+                  className="flex items-center cursor-pointer text-white font-medium tracking-wide "
+                  onClick={() => {
+                    setShowProfile(!showProfile);
+                  }}
+                >
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={""}
+                    sx={{ width: "2rem", height: "2rem" }}
+                  >
+                    {(user?.userName && user?.userName[0]) ||
+                      (user?.name && user?.name[0])}
+                  </Avatar>
                 </span>
-              </span>
-            )}
+                {user?._id && (
+                  <>
+                    {showProfile && (
+                      <span className="absolute flex-col flex h-fit w-full min-w-[15rem] bg-white dark:bg-gray-900 top-0 translate-y-[55%] rounded-sm right-0 ">
+                        <Link href={"/profile"}>
+                          <a className="text-black text-lg w-full  capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white hover:text-white hover:dark:text-black cursor-pointer transition-all ease-in-out duration-300 dark:text-white ">
+                            {user?.userName || user?.name}
+                          </a>
+                        </Link>
+                        <span
+                          className="text-red-500 flex items-center gap-2 text-lg capitalize font-semibold px-4 py-2 hover:bg-gray-900 hover:dark:bg-white cursor-pointer transition-all ease-in-out duration-300  "
+                          onClick={handleLogout}
+                        >
+                          <Logout className="text-red-500  " />
+                          Logout
+                        </span>
+                      </span>
+                    )}
+                  </>
+                )}
+              </div>
+            </ClickAwayListener>
           </div>
           <div className="flex items-center bg-gray-900 dark:bg-gray-200/95 ml-4 px-4 rounded-full ">
             <span>

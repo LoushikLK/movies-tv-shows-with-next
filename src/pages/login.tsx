@@ -6,6 +6,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 import * as Yup from "yup";
 
 const login = () => {
@@ -43,16 +44,22 @@ const login = () => {
 
         let json = await response.json();
 
-        console.log(json);
-
         if (response.status === 200) {
-          setAlertMessage("Logged Successful");
-          setAlert(true);
+          Swal.fire({
+            title: "Success",
+            text: json.message,
+            icon: "success",
+          });
           formik.resetForm();
           refetchUser();
           router?.push("/profile");
+          return;
         }
-        setLoading(false);
+        Swal.fire({
+          title: "Error",
+          text: json.message,
+          icon: "error",
+        });
       } catch (error: any) {
         setLoading(false);
         setAlertMessage(error?.message);
