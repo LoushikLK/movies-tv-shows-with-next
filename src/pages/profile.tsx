@@ -29,9 +29,9 @@ const Profile = () => {
                   <span className="text-base font-semibold text-black dark:text-white tracking-wide">
                     Details
                   </span>
-                  <span className="text-base font-semibold text-black dark:text-gray-400 tracking-wide">
+                  {/* <span className="text-base font-semibold text-black dark:text-gray-400 tracking-wide">
                     Password & Security
-                  </span>
+                  </span> */}
                 </div>
                 <div className="w-full p-8  flex">
                   <div className="w-full md:w-1/6 flex justify-center ">
