@@ -2,7 +2,7 @@
   "name": "movie_search",
   "version": "0.1.0",
   "private": true,
-  "author":"LoushikLK"
+  "author":"LoushikLK",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
